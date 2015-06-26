@@ -1,0 +1,14 @@
+{
+  "name": "intigua-intigua",
+  "version": "0.1.0",
+  "author": "intigua",
+  "summary": "Manage intigua nodes using puppet",
+  "description": "This module uses Intigua APIs, so you can manage some of the intigua capabilities using puppet",
+  "license": "Apache 2.0",
+  "source": "https://github.com/intigua/puppet-intigua",
+  "project_page": "https://github.com/intigua/puppet-intigua",
+  "issues_url": "https://github.com/intigua/puppet-intigua/issues",
+  "dependencies": [
+    {"name":"puppetlabs-stdlib"}
+  ]
+}
