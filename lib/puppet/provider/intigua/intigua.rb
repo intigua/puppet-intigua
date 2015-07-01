@@ -2,6 +2,8 @@
 
 require 'facter'
 require 'puppet/provider/intiguabase'
+require 'digest/sha1'
+require "tmpdir"
 
 Puppet::Type.type(:intigua).provide(:connector, :parent => Puppet::Provider::IntiguaBase) do
   @doc = "Send a public key to GitHub."
@@ -94,15 +96,21 @@ Puppet::Type.type(:intigua).provide(:connector, :parent => Puppet::Provider::Int
 
           # stream request as installer maybe  large
           request = Net::HTTP::Get.new(connector_uri.request_uri)
-          file = Tempfile.new(['vlink', '.exe'])
+
+          # can't use temp file on windows as it is not binary
+          tmppath = Dir::Tmpname.create(["vlink",".exe"]) { |path| puts path }
+          file = File.open(tmppath, 'wb')
           begin
+            sha1 = Digest::SHA1.new
             connection.request request do |response|
               response.read_body do |segment|
                 file.write(segment)
+                sha1 << segment
               end
             end
             file.close
 
+            info "Installer downloaded to #{file.path} sha1: #{sha1.hexdigest}"
             install_connector file.path
 
           ensure
@@ -112,18 +120,22 @@ Puppet::Type.type(:intigua).provide(:connector, :parent => Puppet::Provider::Int
 
   end
 
-    def install_connector(installer)
-      coreid = ""
-      if server != nil
-        coreid = "-coreid=#{server['coreid']}"
-      end
-
-      coreserverurl  = URI.join(@resource[:coreserverurl], "/vmanage-server/").to_s
-
-      FileUtils.chmod(0755, installer)
-      info "running command #{installer} #{coreid} -coreserverurl=#{coreserverurl}"
-
-      system(installer, "#{coreid}", "-coreserverurl=#{coreserverurl}")
+  def install_connector(installer)
+    coreid = ""
+    if server != nil
+      coreid = "-coreid=#{server['coreid']}"
     end
 
+    coreserverurl  = URI.join(@resource[:coreserverurl], "/vmanage-server/").to_s
+
+    FileUtils.chmod(0755, installer)
+    args = [installer, "#{coreid}", "-coreserverurl=#{coreserverurl}"]
+
+    info "running command "  + (args * " ")
+
+    retVal = system(*args)
+    if retVal != true
+      raise "Installing connector failed ret val = #{retVal} msg = #{$?}"
+    end
+  end
 end
