@@ -19,7 +19,9 @@ The Intigua module helps Puppet users deploy and manage agent-based and agentles
 
 ## Module Description
 
-This module lets Puppet classes and resources be used together with Intigua in order to determine, deploy and mainain the needed set of management services to each node. This integration continues to ensure correct setup, configuration and health of agent-based and agentless tools on the server through its lifetime.
+This module lets Puppet classes and resources be used together with Intigua in order to determine, deploy and maintain the needed set of management services to each node. Together with the Intigua server, the module continuously ensures correct setup, configuration and health of agent-based and agentless tools on the server through its lifetime, including agent CPU and memory throttling, registration of agents with backends, and automated remediation of failures.
+
+Some examples of management tools which can be operated in this manner are: monitoring tools such as Microsoft SCOM, VMware vRealize Hyperic, and Zabbix; Log collection and analytics tools such as Splunk and VMware Log Insight; Backup tools such as Symantec NetBackup and EMC NetWorker; and endpoint security tools such as Symantec Endpoint Protection.
 
 The module first ensures the node is connected to Intigua, by setting up the Intigua connector if it's not already there. Once connected, the module can be used to apply Intigua-managed server management tools.
 
