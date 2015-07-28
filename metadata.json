@@ -4,11 +4,28 @@
   "author": "intigua",
   "summary": "Manage intigua nodes using puppet",
   "description": "Leverages Intigua APIs to manage managment services. Including automatic cpu and memory throttling, automatic remediation and backend registration for tools like: SCOM, Hyperic, Zabbix, Splunk, Netbackup.",
-  "license": "Apache 2.0",
+  "license": "Apache-2.0",
   "source": "https://github.com/intigua/puppet-intigua",
   "project_page": "https://github.com/intigua/puppet-intigua",
   "issues_url": "https://github.com/intigua/puppet-intigua/issues",
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "RedHat"
+    },
+    {
+      "operatingsystem": "CentOS"
+    },
+    {
+      "operatingsystem": "Suse"
+    },
+    {
+      "operatingsystem": "Ubuntu"
+    },
+    {
+      "operatingsystem": "Windows"
+    }
+   ],
   "dependencies": [
-    {"name":"puppetlabs-stdlib"}
+    {"name":"puppetlabs-stdlib", "version_requirement": ">= 2.4.0 < 5.0.0"}
   ]
 }
