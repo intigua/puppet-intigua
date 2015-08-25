@@ -28,7 +28,7 @@ class Puppet::Provider::IntiguaBase < Puppet::Provider
 
     def connection
       return @connection if defined?(@connection)
-      coreUri = URI.join(@resource[:coreserverurl])
+      coreUri = url_join_ruby_workaround(@resource[:coreserverurl], "")
       # fixme use a new connection per request - this uses githun
       @connection = Net::HTTP.new(coreUri.host, coreUri.port)
 
