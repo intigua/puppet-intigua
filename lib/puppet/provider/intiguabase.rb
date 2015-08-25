@@ -135,11 +135,22 @@ class Puppet::Provider::IntiguaBase < Puppet::Provider
 
       method_with_data(Net::HTTP::Get, path, nil)
     end
+    def url_join_ruby_workaround(url, path)
+      # http://stackoverflow.com/a/18938253/328631
+      begin
+        uri = URI.join(url, path)
+      rescue URI::InvalidURIError
+        host = url.match(".+\:\/\/([^\/]+)")[1]
+        uri = URI.join(url.sub(host, 'dummy-host'), path)
+        uri.instance_variable_set('@host', host)
+      end
+      uri
+    end
 
     def method_with_data(requestclass, path, data=nil)
       # do not change the original
       path = path.dup
-      uri = URI.join(@resource[:coreserverurl], path)
+      uri = url_join_ruby_workaround(@resource[:coreserverurl], path)
       # no auth info here
       uriToPrint = uri.dup
       # now set the auth info
