@@ -1,6 +1,6 @@
 {
   "name": "intigua-intigua",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "author": "intigua",
   "summary": "Manage intigua nodes using puppet",
   "description": "Leverages Intigua APIs to manage managment services. Including automatic cpu and memory throttling, automatic remediation and backend registration for tools like: SCOM, Hyperic, Zabbix, Splunk, Netbackup.",
