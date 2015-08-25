@@ -72,7 +72,7 @@ Puppet::Type.type(:intigua).provide(:connector, :parent => Puppet::Provider::Int
 
           os = Facter.value('kernel')
           # get the connector list
-          uri = URI.join(@resource[:coreserverurl], "/connectors/")
+          uri = url_join_ruby_workaround(@resource[:coreserverurl], "/connectors/")
 
           # find the connector:
           connector_plat = ""
@@ -92,7 +92,7 @@ Puppet::Type.type(:intigua).provide(:connector, :parent => Puppet::Provider::Int
           # download it from the intigua server and install it:
           info "planning to install #{connector['name']}"
           # not sure why to_s is needed. but it doesn't work without it
-          connector_uri = URI.join(uri.to_s, connector['name'])
+          connector_uri = url_join_ruby_workaround(uri.to_s, connector['name'])
 
           # stream request as installer maybe  large
           request = Net::HTTP::Get.new(connector_uri.request_uri)
@@ -126,7 +126,7 @@ Puppet::Type.type(:intigua).provide(:connector, :parent => Puppet::Provider::Int
       coreid = "-coreid=#{server['coreid']}"
     end
 
-    coreserverurl  = URI.join(@resource[:coreserverurl], "/vmanage-server/").to_s
+    coreserverurl  = url_join_ruby_workaround(@resource[:coreserverurl], "/vmanage-server/").to_s
 
     FileUtils.chmod(0755, installer)
     args = [installer, "#{coreid}", "-coreserverurl=#{coreserverurl}"]

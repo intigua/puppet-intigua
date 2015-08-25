@@ -32,7 +32,7 @@ Puppet::Type.type(:tag).provide(:intiguatag, :parent => Puppet::Provider::Intigu
   end
 
   def create_if_needed
-    tagsUri = URI.join(@resource[:coreserverurl], "tags")
+    tagsUri = url_join_ruby_workaround(@resource[:coreserverurl], "tags")
     tags = JSON_GET(tagsUri)
 
     if tags.index{ |x| x['name'] == @resource[:name] } == nil
