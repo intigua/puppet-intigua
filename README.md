@@ -47,10 +47,10 @@ The following basic configuration is required so that the module can connect to 
 
 ```puppet
 class { 'intigua':
-  ensure => present,
-  api_endpoint => "https://intigua.acme.com/vmanage-server/rest/rest-api/"
-  api_user => "puppet"
-  api_key => "D2EA7069-C14B-41B3-9E19-47AF05057C75"
+  connected => true,
+  api_endpoint => "https://intigua.acme.com/vmanage-server/rest/rest-api/",
+  api_user => "puppet",
+  api_key => "D2EA7069-C14B-41B3-9E19-47AF05057C75",
 }
 ```
 
